@@ -49,8 +49,8 @@ export const NetworkSecuritySlide = () => {
           Actividad práctica:
         </h3>
         <ol className="space-y-2 text-lg list-decimal list-inside">
-          <li>Acceder a 192.168.1.1 (o IP propia)</li>
-          <li>Cambiar credenciales y crear red de invitados</li>
+          <li>Buscar modelo de tu router o caja de internet</li>
+          <li>Descargar app del router para configurar desde móvil</li>
         </ol>
       </div>
     </div>

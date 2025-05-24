@@ -1,5 +1,6 @@
 
 import { Shield, CheckCircle, Download } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export const AntivirusSlide = () => {
   return (
@@ -51,10 +52,19 @@ export const AntivirusSlide = () => {
           <Shield className="w-6 h-6" />
           Actividad práctica:
         </h3>
-        <ol className="space-y-2 text-lg list-decimal list-inside">
+        <ol className="space-y-2 text-lg list-decimal list-inside mb-4">
           <li>Verificar fuentes de descarga de software</li>
           <li>Revisar alternativas open source para herramientas comunes</li>
+          <li>Abrir VirusTotal para revisar un archivo</li>
         </ol>
+        <Button 
+          asChild
+          className="bg-yellow-600 hover:bg-yellow-700 text-white"
+        >
+          <a href="https://www.virustotal.com/" target="_blank" rel="noopener noreferrer">
+            Abrir VirusTotal
+          </a>
+        </Button>
       </div>
     </div>
   );
