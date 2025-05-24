@@ -1,5 +1,6 @@
 
-import { AlertTriangle, Mail, Eye } from "lucide-react";
+import { AlertTriangle, Mail, Eye, ExternalLink } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export const PhishingSlide = () => {
   const warnings = [
@@ -48,6 +49,22 @@ export const PhishingSlide = () => {
             Consejo:
           </h3>
           <p className="text-lg">Nunca hacer clic sin verificar el remitente</p>
+        </div>
+
+        <div className="p-6 bg-yellow-500/20 backdrop-blur-sm rounded-xl border border-yellow-300/20">
+          <h3 className="text-2xl font-bold mb-4 text-yellow-300 flex items-center gap-2">
+            <ExternalLink className="w-6 h-6" />
+            Actividad avanzada:
+          </h3>
+          <p className="text-lg mb-4">Practica Google Dorking seguro con esta herramienta</p>
+          <Button 
+            asChild
+            className="bg-yellow-600 hover:bg-yellow-700 text-white"
+          >
+            <a href="https://google-dorking-tool.vercel.app/" target="_blank" rel="noopener noreferrer">
+              Herramienta Google Dorking
+            </a>
+          </Button>
         </div>
       </div>
     </div>

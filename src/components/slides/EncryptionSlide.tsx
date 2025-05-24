@@ -1,11 +1,17 @@
 
-import { Lock, Shield, CheckCircle } from "lucide-react";
+import { Lock, Shield, CheckCircle, ExternalLink } from "lucide-react";
 
 export const EncryptionSlide = () => {
   const backupRules = [
     "Tres copias de tus datos",
     "Dos medios diferentes (nube + disco externo)", 
     "Una copia fuera de sitio"
+  ];
+
+  const threatResources = [
+    { name: "IBM X-Force Exchange", url: "https://exchange.xforce.ibmcloud.com/" },
+    { name: "CISA", url: "https://www.cisa.gov/" },
+    { name: "MITRE", url: "https://www.mitre.org/" }
   ];
 
   return (
@@ -39,6 +45,28 @@ export const EncryptionSlide = () => {
               <li key={index}>{rule}</li>
             ))}
           </ol>
+        </div>
+      </div>
+
+      <div className="bg-cyan-500/20 backdrop-blur-sm rounded-xl border border-cyan-300/20 p-6 max-w-4xl mx-auto">
+        <h3 className="text-2xl font-bold mb-4 text-cyan-300 flex items-center gap-2">
+          <ExternalLink className="w-6 h-6" />
+          Consulta datos de amenazas globales:
+        </h3>
+        <div className="space-y-3">
+          {threatResources.map((resource, index) => (
+            <div key={index} className="flex items-center gap-3">
+              <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
+              <a 
+                href={resource.url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-cyan-300 hover:text-cyan-200 underline transition-colors text-lg"
+              >
+                {resource.name}
+              </a>
+            </div>
+          ))}
         </div>
       </div>
 

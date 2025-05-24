@@ -1,5 +1,6 @@
 
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, ExternalLink } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export const ObjectivesSlide = () => {
   const objectives = [
@@ -25,6 +26,22 @@ export const ObjectivesSlide = () => {
             <span className="text-xl">{objective}</span>
           </div>
         ))}
+      </div>
+
+      <div className="bg-cyan-500/20 backdrop-blur-sm rounded-xl border border-cyan-300/20 p-6 max-w-4xl mx-auto">
+        <h3 className="text-2xl font-bold mb-4 text-cyan-300 flex items-center gap-2">
+          <ExternalLink className="w-6 h-6" />
+          Actividad extra:
+        </h3>
+        <p className="text-lg mb-4">Explora la página web de conceptos básicos de seguridad</p>
+        <Button 
+          asChild
+          className="bg-cyan-600 hover:bg-cyan-700 text-white"
+        >
+          <a href="https://security-basics.vercel.app/" target="_blank" rel="noopener noreferrer">
+            Visitar Security Basics
+          </a>
+        </Button>
       </div>
     </div>
   );
