@@ -15,7 +15,7 @@ export const TitleSlide = () => {
       </h1>
       
       <div className="text-xl text-gray-300 space-y-2">
-        <p>Ponente: <span className="text-blue-400 font-semibold">Jesús Gil</span></p>
+        <p>Ponente: <a href="https://gravatar.com/jesusrgil" target="_blank" rel="noopener noreferrer" className="text-blue-400 font-semibold hover:text-blue-300 transition-colors">Jesus Rodolfo Gil Farias</a></p>
       </div>
       
       <div className="mt-12 text-gray-400">

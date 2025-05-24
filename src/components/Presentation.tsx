@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,6 +7,7 @@ import { WhyMattersSlide } from "./slides/WhyMattersSlide";
 import { AntivirusSlide } from "./slides/AntivirusSlide";
 import { NetworkSecuritySlide } from "./slides/NetworkSecuritySlide";
 import { PhishingSlide } from "./slides/PhishingSlide";
+import { AISecuritySlide } from "./slides/AISecuritySlide";
 import { PasswordsSlide } from "./slides/PasswordsSlide";
 import { MalwareSlide } from "./slides/MalwareSlide";
 import { EncryptionSlide } from "./slides/EncryptionSlide";
@@ -21,6 +21,7 @@ const slides = [
   AntivirusSlide,
   NetworkSecuritySlide,
   PhishingSlide,
+  AISecuritySlide,
   PasswordsSlide,
   MalwareSlide,
   EncryptionSlide,
