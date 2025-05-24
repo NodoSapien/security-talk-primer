@@ -1,11 +1,10 @@
 
-import { Link, FileText, Users, Calendar, Shield } from "lucide-react";
+import { Link, FileText, Users, Calendar } from "lucide-react";
 
 export const ResourcesSlide = () => {
   const trainingPlatforms = [
     { name: "ISC2", url: "https://www.isc2.org/" },
     { name: "CompTIA", url: "https://www.comptia.org/home" },
-    { name: "NIST NICE", url: "https://www.nist.gov/itl/applied-cybersecurity/nice/resources/online-learning-content" },
     { name: "Linux Foundation Training", url: "https://training.linuxfoundation.org/" }
   ];
 
@@ -132,7 +131,7 @@ export const ResourcesSlide = () => {
 
         <div className="p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
           <h3 className="text-2xl font-bold mb-4 text-red-300 flex items-center gap-2">
-            <Shield className="w-6 h-6" />
+            <FileText className="w-6 h-6" />
             Lecturas sobre privacidad y derechos digitales:
           </h3>
           <ul className="space-y-3">
@@ -150,11 +149,6 @@ export const ResourcesSlide = () => {
               </li>
             ))}
           </ul>
-        </div>
-
-        <div className="p-6 bg-green-500/20 backdrop-blur-sm rounded-xl border border-green-300/20 text-center">
-          <h3 className="text-2xl font-bold mb-2 text-green-300">Mantente al día:</h3>
-          <p className="text-lg">Suscríbete a boletines de seguridad</p>
         </div>
       </div>
     </div>
