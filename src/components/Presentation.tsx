@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -49,32 +50,32 @@ export const Presentation = () => {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Slide Content */}
-      <div className="flex-1 flex items-center justify-center p-4">
+      <div className="flex-1 flex items-center justify-center p-2 sm:p-4">
         <div className="w-full max-w-6xl mx-auto animate-fade-in">
           <CurrentSlideComponent />
         </div>
       </div>
 
       {/* Navigation */}
-      <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-black/20 backdrop-blur-sm rounded-full p-4 flex items-center gap-4">
+      <div className="fixed bottom-4 sm:bottom-6 left-1/2 transform -translate-x-1/2 bg-black/20 backdrop-blur-sm rounded-full p-3 sm:p-4 flex items-center gap-3 sm:gap-4">
         <Button
           variant="outline"
           size="sm"
           onClick={prevSlide}
           disabled={currentSlide === 0}
-          className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+          className="bg-white/10 border-white/20 text-white hover:bg-white/20 h-8 w-8 sm:h-10 sm:w-10 p-0"
         >
-          <ChevronLeft className="w-4 h-4" />
+          <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4" />
         </Button>
 
-        <div className="flex gap-2">
+        <div className="flex gap-1 sm:gap-2">
           {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`w-2 h-2 rounded-full transition-all ${
+              className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-all ${
                 index === currentSlide
-                  ? "bg-blue-400 w-8"
+                  ? "bg-blue-400 w-6 sm:w-8"
                   : "bg-white/30 hover:bg-white/50"
               }`}
             />
@@ -86,14 +87,14 @@ export const Presentation = () => {
           size="sm"
           onClick={nextSlide}
           disabled={currentSlide === slides.length - 1}
-          className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+          className="bg-white/10 border-white/20 text-white hover:bg-white/20 h-8 w-8 sm:h-10 sm:w-10 p-0"
         >
-          <ChevronRight className="w-4 h-4" />
+          <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
         </Button>
       </div>
 
       {/* Slide Counter */}
-      <div className="fixed top-6 right-6 bg-black/20 backdrop-blur-sm rounded-lg px-3 py-2 text-white/80 text-sm">
+      <div className="fixed top-4 sm:top-6 right-4 sm:right-6 bg-black/20 backdrop-blur-sm rounded-lg px-2 py-1 sm:px-3 sm:py-2 text-white/80 text-xs sm:text-sm">
         {currentSlide + 1} / {slides.length}
       </div>
     </div>

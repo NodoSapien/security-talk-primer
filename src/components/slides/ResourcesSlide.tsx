@@ -31,27 +31,27 @@ export const ResourcesSlide = () => {
   ];
 
   return (
-    <div className="text-white space-y-8">
-      <h2 className="text-5xl font-bold text-center bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mb-12">
+    <div className="text-white space-y-6 sm:space-y-8 px-4">
+      <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent mb-8 sm:mb-12">
         Recursos y próximos pasos
       </h2>
       
-      <div className="max-w-6xl mx-auto space-y-8">
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
-            <h3 className="text-2xl font-bold mb-4 text-blue-300 flex items-center gap-2">
-              <FileText className="w-6 h-6" />
+      <div className="max-w-6xl mx-auto space-y-6 sm:space-y-8">
+        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8">
+          <div className="p-4 sm:p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
+            <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-blue-300 flex items-center gap-2">
+              <FileText className="w-5 h-5 sm:w-6 sm:h-6" />
               Guías oficiales:
             </h3>
             <ul className="space-y-3">
               {officialResources.map((resource, index) => (
-                <li key={index} className="flex items-center gap-3 text-lg">
-                  <Link className="w-5 h-5 text-cyan-400" />
+                <li key={index} className="flex items-center gap-3 text-base sm:text-lg">
+                  <Link className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400" />
                   <a 
                     href={resource.url} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-cyan-300 hover:text-cyan-200 underline transition-colors"
+                    className="text-cyan-300 hover:text-cyan-200 underline transition-colors break-all"
                   >
                     {resource.name}
                   </a>
@@ -60,20 +60,20 @@ export const ResourcesSlide = () => {
             </ul>
           </div>
 
-          <div className="p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
-            <h3 className="text-2xl font-bold mb-4 text-purple-300 flex items-center gap-2">
-              <Users className="w-6 h-6" />
-              Plataformas de formación recomendadas:
+          <div className="p-4 sm:p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
+            <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-purple-300 flex items-center gap-2">
+              <Users className="w-5 h-5 sm:w-6 sm:h-6" />
+              Plataformas de formación:
             </h3>
             <ul className="space-y-3">
               {trainingPlatforms.map((platform, index) => (
-                <li key={index} className="flex items-center gap-3 text-lg">
-                  <Link className="w-5 h-5 text-cyan-400" />
+                <li key={index} className="flex items-center gap-3 text-base sm:text-lg">
+                  <Link className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400" />
                   <a 
                     href={platform.url} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-cyan-300 hover:text-cyan-200 underline transition-colors"
+                    className="text-cyan-300 hover:text-cyan-200 underline transition-colors break-all"
                   >
                     {platform.name}
                   </a>
@@ -83,21 +83,21 @@ export const ResourcesSlide = () => {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
-            <h3 className="text-2xl font-bold mb-4 text-orange-300 flex items-center gap-2">
-              <FileText className="w-6 h-6" />
-              Blogs y noticias de referencia:
+        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8">
+          <div className="p-4 sm:p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
+            <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-orange-300 flex items-center gap-2">
+              <FileText className="w-5 h-5 sm:w-6 sm:h-6" />
+              Blogs y noticias:
             </h3>
             <ul className="space-y-3">
               {blogs.map((blog, index) => (
-                <li key={index} className="flex items-center gap-3 text-lg">
-                  <Link className="w-5 h-5 text-cyan-400" />
+                <li key={index} className="flex items-center gap-3 text-base sm:text-lg">
+                  <Link className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400" />
                   <a 
                     href={blog.url} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-cyan-300 hover:text-cyan-200 underline transition-colors"
+                    className="text-cyan-300 hover:text-cyan-200 underline transition-colors break-all"
                   >
                     {blog.name}
                   </a>
@@ -106,20 +106,20 @@ export const ResourcesSlide = () => {
             </ul>
           </div>
 
-          <div className="p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
-            <h3 className="text-2xl font-bold mb-4 text-yellow-300 flex items-center gap-2">
-              <Calendar className="w-6 h-6" />
+          <div className="p-4 sm:p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
+            <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-yellow-300 flex items-center gap-2">
+              <Calendar className="w-5 h-5 sm:w-6 sm:h-6" />
               Conferencias y eventos:
             </h3>
             <ul className="space-y-3">
               {conferences.map((conference, index) => (
-                <li key={index} className="flex items-center gap-3 text-lg">
-                  <Link className="w-5 h-5 text-cyan-400" />
+                <li key={index} className="flex items-center gap-3 text-base sm:text-lg">
+                  <Link className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400" />
                   <a 
                     href={conference.url} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-cyan-300 hover:text-cyan-200 underline transition-colors"
+                    className="text-cyan-300 hover:text-cyan-200 underline transition-colors break-all"
                   >
                     {conference.name}
                   </a>
@@ -129,20 +129,20 @@ export const ResourcesSlide = () => {
           </div>
         </div>
 
-        <div className="p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
-          <h3 className="text-2xl font-bold mb-4 text-red-300 flex items-center gap-2">
-            <FileText className="w-6 h-6" />
-            Lecturas sobre privacidad y derechos digitales:
+        <div className="p-4 sm:p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
+          <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-red-300 flex items-center gap-2">
+            <FileText className="w-5 h-5 sm:w-6 sm:h-6" />
+            Privacidad y derechos digitales:
           </h3>
           <ul className="space-y-3">
             {privacyResources.map((resource, index) => (
-              <li key={index} className="flex items-center gap-3 text-lg">
-                <Link className="w-5 h-5 text-cyan-400" />
+              <li key={index} className="flex items-center gap-3 text-base sm:text-lg">
+                <Link className="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400" />
                 <a 
                   href={resource.url} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-cyan-300 hover:text-cyan-200 underline transition-colors"
+                  className="text-cyan-300 hover:text-cyan-200 underline transition-colors break-all"
                 >
                   {resource.name}
                 </a>
