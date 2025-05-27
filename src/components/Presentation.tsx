@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TitleSlide } from "./slides/TitleSlide";
@@ -32,6 +32,8 @@ const slides = [
 
 export const Presentation = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -45,12 +47,45 @@ export const Presentation = () => {
     setCurrentSlide(index);
   };
 
+  // Funciones para manejar gestos táctiles
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  }, []);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+  }, []);
+
+  const handleTouchEnd = useCallback(() => {
+    if (!touchStartX.current || !touchEndX.current) return;
+
+    const distance = touchStartX.current - touchEndX.current;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe && currentSlide < slides.length - 1) {
+      nextSlide();
+    }
+    if (isRightSwipe && currentSlide > 0) {
+      prevSlide();
+    }
+
+    // Resetear valores
+    touchStartX.current = null;
+    touchEndX.current = null;
+  }, [currentSlide]);
+
   const CurrentSlideComponent = slides[currentSlide];
 
   return (
     <div className="min-h-screen flex flex-col">
       {/* Slide Content */}
-      <div className="flex-1 flex items-center justify-center p-2 sm:p-4">
+      <div 
+        className="flex-1 flex items-center justify-center p-2 sm:p-4"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
         <div className="w-full max-w-6xl mx-auto animate-fade-in">
           <CurrentSlideComponent />
         </div>
