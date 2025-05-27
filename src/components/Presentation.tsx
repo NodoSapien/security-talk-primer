@@ -1,7 +1,8 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Timer } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 import { TitleSlide } from "./slides/TitleSlide";
 import { ObjectivesSlide } from "./slides/ObjectivesSlide";
 import { WhyMattersSlide } from "./slides/WhyMattersSlide";
@@ -33,11 +34,63 @@ const slides = [
 export const Presentation = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showNavigation, setShowNavigation] = useState(true);
+  const [timeRemaining, setTimeRemaining] = useState(7 * 60); // 7 minutes in seconds
+  const [isTimerRunning, setIsTimerRunning] = useState(false);
+  const [showTimer, setShowTimer] = useState(false);
+  
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
   const touchEndY = useRef<number | null>(null);
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  const SLIDE_DURATION = 7 * 60; // 7 minutes per slide
+
+  // Timer functions
+  const startTimer = () => {
+    setIsTimerRunning(true);
+    setTimeRemaining(SLIDE_DURATION);
+    
+    if (timerIntervalRef.current) {
+      clearInterval(timerIntervalRef.current);
+    }
+    
+    timerIntervalRef.current = setInterval(() => {
+      setTimeRemaining(prev => {
+        if (prev <= 1) {
+          setIsTimerRunning(false);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
+
+  const pauseTimer = () => {
+    setIsTimerRunning(false);
+    if (timerIntervalRef.current) {
+      clearInterval(timerIntervalRef.current);
+    }
+  };
+
+  const resetTimer = () => {
+    setIsTimerRunning(false);
+    setTimeRemaining(SLIDE_DURATION);
+    if (timerIntervalRef.current) {
+      clearInterval(timerIntervalRef.current);
+    }
+  };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const getProgressPercentage = () => {
+    return ((SLIDE_DURATION - timeRemaining) / SLIDE_DURATION) * 100;
+  };
 
   // Función para detectar si es dispositivo móvil
   const isMobile = () => {
@@ -64,16 +117,19 @@ export const Presentation = () => {
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
     showNavigationWithTimeout();
+    resetTimer();
   };
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
     showNavigationWithTimeout();
+    resetTimer();
   };
 
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
     showNavigationWithTimeout();
+    resetTimer();
   };
 
   // Funciones para manejar gestos táctiles
@@ -128,6 +184,9 @@ export const Presentation = () => {
       if (hideTimeoutRef.current) {
         clearTimeout(hideTimeoutRef.current);
       }
+      if (timerIntervalRef.current) {
+        clearInterval(timerIntervalRef.current);
+      }
     };
   }, [showNavigationWithTimeout]);
 
@@ -140,6 +199,45 @@ export const Presentation = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      {/* Timer Button */}
+      <div className="fixed top-4 sm:top-6 left-4 sm:left-6 z-50">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setShowTimer(!showTimer)}
+          className="bg-black/20 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm"
+        >
+          <Timer className="w-4 h-4 sm:w-5 sm:h-5" />
+        </Button>
+        
+        {showTimer && (
+          <div className="mt-2 bg-black/20 backdrop-blur-sm rounded-lg p-2 sm:p-3 text-white/90 min-w-[120px]">
+            <div className="text-center text-sm sm:text-base font-mono mb-2">
+              {formatTime(timeRemaining)}
+            </div>
+            <Progress value={getProgressPercentage()} className="h-1 sm:h-2 mb-2" />
+            <div className="flex gap-1 justify-center">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={isTimerRunning ? pauseTimer : startTimer}
+                className="text-white hover:bg-white/20 h-6 px-2 text-xs"
+              >
+                {isTimerRunning ? "⏸️" : "▶️"}
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={resetTimer}
+                className="text-white hover:bg-white/20 h-6 px-2 text-xs"
+              >
+                🔄
+              </Button>
+            </div>
+          </div>
+        )}
+      </div>
+
       {/* Slide Content */}
       <div 
         className="flex-1 flex items-center justify-center p-2 sm:p-4"
