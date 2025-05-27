@@ -1,5 +1,5 @@
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TitleSlide } from "./slides/TitleSlide";
@@ -32,48 +32,109 @@ const slides = [
 
 export const Presentation = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [showNavigation, setShowNavigation] = useState(true);
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+  const touchEndY = useRef<number | null>(null);
+  const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Función para detectar si es dispositivo móvil
+  const isMobile = () => {
+    return window.innerWidth <= 768;
+  };
+
+  // Función para mostrar navegación y configurar auto-ocultación
+  const showNavigationWithTimeout = useCallback(() => {
+    setShowNavigation(true);
+    
+    if (isMobile()) {
+      // Limpiar timeout anterior si existe
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current);
+      }
+      
+      // Configurar nuevo timeout para ocultar después de 3 segundos
+      hideTimeoutRef.current = setTimeout(() => {
+        setShowNavigation(false);
+      }, 3000);
+    }
+  }, []);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
+    showNavigationWithTimeout();
   };
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    showNavigationWithTimeout();
   };
 
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
+    showNavigationWithTimeout();
   };
 
   // Funciones para manejar gestos táctiles
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
   }, []);
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
     touchEndX.current = e.touches[0].clientX;
+    touchEndY.current = e.touches[0].clientY;
   }, []);
 
   const handleTouchEnd = useCallback(() => {
-    if (!touchStartX.current || !touchEndX.current) return;
+    if (!touchStartX.current || !touchEndX.current || !touchStartY.current || !touchEndY.current) return;
 
-    const distance = touchStartX.current - touchEndX.current;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
+    const distanceX = touchStartX.current - touchEndX.current;
+    const distanceY = touchStartY.current - touchEndY.current;
+    const isLeftSwipe = distanceX > 50;
+    const isRightSwipe = distanceX < -50;
+    const isDownSwipe = distanceY < -50;
 
-    if (isLeftSwipe && currentSlide < slides.length - 1) {
-      nextSlide();
+    // Gesto hacia abajo para mostrar navegación
+    if (isDownSwipe && Math.abs(distanceY) > Math.abs(distanceX)) {
+      showNavigationWithTimeout();
     }
-    if (isRightSwipe && currentSlide > 0) {
-      prevSlide();
+    // Gestos horizontales para cambiar diapositivas
+    else if (Math.abs(distanceX) > Math.abs(distanceY)) {
+      if (isLeftSwipe && currentSlide < slides.length - 1) {
+        nextSlide();
+      }
+      if (isRightSwipe && currentSlide > 0) {
+        prevSlide();
+      }
     }
 
     // Resetear valores
     touchStartX.current = null;
     touchEndX.current = null;
-  }, [currentSlide]);
+    touchStartY.current = null;
+    touchEndY.current = null;
+  }, [currentSlide, showNavigationWithTimeout]);
+
+  // Efecto para configurar auto-ocultación inicial
+  useEffect(() => {
+    if (isMobile()) {
+      showNavigationWithTimeout();
+    }
+    
+    // Cleanup al desmontar componente
+    return () => {
+      if (hideTimeoutRef.current) {
+        clearTimeout(hideTimeoutRef.current);
+      }
+    };
+  }, [showNavigationWithTimeout]);
+
+  // Efecto para mostrar navegación al cambiar de diapositiva
+  useEffect(() => {
+    showNavigationWithTimeout();
+  }, [currentSlide, showNavigationWithTimeout]);
 
   const CurrentSlideComponent = slides[currentSlide];
 
@@ -92,7 +153,9 @@ export const Presentation = () => {
       </div>
 
       {/* Navigation */}
-      <div className="fixed bottom-4 sm:bottom-6 left-1/2 transform -translate-x-1/2 bg-black/20 backdrop-blur-sm rounded-full p-3 sm:p-4 flex items-center gap-3 sm:gap-4">
+      <div className={`fixed bottom-4 sm:bottom-6 left-1/2 transform -translate-x-1/2 bg-black/20 backdrop-blur-sm rounded-full p-3 sm:p-4 flex items-center gap-3 sm:gap-4 transition-all duration-300 ${
+        showNavigation ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0 md:translate-y-0 md:opacity-100'
+      }`}>
         <Button
           variant="outline"
           size="sm"
@@ -129,7 +192,9 @@ export const Presentation = () => {
       </div>
 
       {/* Slide Counter */}
-      <div className="fixed top-4 sm:top-6 right-4 sm:right-6 bg-black/20 backdrop-blur-sm rounded-lg px-2 py-1 sm:px-3 sm:py-2 text-white/80 text-xs sm:text-sm">
+      <div className={`fixed top-4 sm:top-6 right-4 sm:right-6 bg-black/20 backdrop-blur-sm rounded-lg px-2 py-1 sm:px-3 sm:py-2 text-white/80 text-xs sm:text-sm transition-all duration-300 ${
+        showNavigation ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 md:translate-y-0 md:opacity-100'
+      }`}>
         {currentSlide + 1} / {slides.length}
       </div>
     </div>
