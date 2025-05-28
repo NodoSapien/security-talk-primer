@@ -1,7 +1,13 @@
 
+import { useState } from "react";
 import { Shield } from "lucide-react";
+import { QRModal } from "../QRModal";
 
 export const TitleSlide = () => {
+  const [showQRModal, setShowQRModal] = useState(false);
+  
+  const presentationUrl = "https://security-talk-primer.lovable.app/";
+
   return (
     <div className="text-center text-white space-y-4 sm:space-y-8 py-8 sm:py-16 px-4">
       <div className="flex justify-center mb-4 sm:mb-8">
@@ -10,7 +16,11 @@ export const TitleSlide = () => {
         </div>
       </div>
       
-      <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent leading-tight">
+      <h1 
+        className="text-3xl sm:text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent leading-tight cursor-pointer hover:opacity-80 transition-opacity"
+        onClick={() => setShowQRModal(true)}
+        title="Haz clic para ver el código QR"
+      >
         Ciberseguridad en Dispositivos Personales
       </h1>
       
@@ -21,6 +31,13 @@ export const TitleSlide = () => {
       <div className="mt-8 sm:mt-12 text-gray-400">
         <p className="text-base sm:text-lg">Protege tu vida digital con conocimientos prácticos</p>
       </div>
+
+      <QRModal
+        isOpen={showQRModal}
+        onClose={() => setShowQRModal(false)}
+        url={presentationUrl}
+        title="Acceder a la Presentación"
+      />
     </div>
   );
 };
