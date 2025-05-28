@@ -3,6 +3,7 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Timer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { Input } from "@/components/ui/input";
 import { TitleSlide } from "./slides/TitleSlide";
 import { ObjectivesSlide } from "./slides/ObjectivesSlide";
 import { WhyMattersSlide } from "./slides/WhyMattersSlide";
@@ -34,9 +35,12 @@ const slides = [
 export const Presentation = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showNavigation, setShowNavigation] = useState(true);
+  const [slideDurationMinutes, setSlideDurationMinutes] = useState(7);
   const [timeRemaining, setTimeRemaining] = useState(7 * 60); // 7 minutes in seconds
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [showTimer, setShowTimer] = useState(false);
+  const [isEditingDuration, setIsEditingDuration] = useState(false);
+  const [beepPlayed, setBeepPlayed] = useState(false);
   
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
@@ -44,13 +48,38 @@ export const Presentation = () => {
   const touchEndY = useRef<number | null>(null);
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
 
-  const SLIDE_DURATION = 7 * 60; // 7 minutes per slide
+  // Create audio context for beep sound
+  const createBeepSound = useCallback(() => {
+    if (!audioContextRef.current) {
+      audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+    }
+    
+    const context = audioContextRef.current;
+    const oscillator = context.createOscillator();
+    const gainNode = context.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(context.destination);
+    
+    oscillator.frequency.setValueAtTime(800, context.currentTime);
+    oscillator.type = 'sine';
+    
+    gainNode.gain.setValueAtTime(0.3, context.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, context.currentTime + 0.5);
+    
+    oscillator.start(context.currentTime);
+    oscillator.stop(context.currentTime + 0.5);
+  }, []);
+
+  const SLIDE_DURATION = slideDurationMinutes * 60; // Convert minutes to seconds
 
   // Timer functions
   const startTimer = () => {
     setIsTimerRunning(true);
     setTimeRemaining(SLIDE_DURATION);
+    setBeepPlayed(false);
     
     if (timerIntervalRef.current) {
       clearInterval(timerIntervalRef.current);
@@ -62,6 +91,13 @@ export const Presentation = () => {
           setIsTimerRunning(false);
           return 0;
         }
+        
+        // Play beep sound in the last 30 seconds
+        if (prev <= 30 && !beepPlayed) {
+          createBeepSound();
+          setBeepPlayed(true);
+        }
+        
         return prev - 1;
       });
     }, 1000);
@@ -77,8 +113,17 @@ export const Presentation = () => {
   const resetTimer = () => {
     setIsTimerRunning(false);
     setTimeRemaining(SLIDE_DURATION);
+    setBeepPlayed(false);
     if (timerIntervalRef.current) {
       clearInterval(timerIntervalRef.current);
+    }
+  };
+
+  const handleDurationChange = (newMinutes: number) => {
+    if (newMinutes > 0 && newMinutes <= 60) {
+      setSlideDurationMinutes(newMinutes);
+      setTimeRemaining(newMinutes * 60);
+      setBeepPlayed(false);
     }
   };
 
@@ -195,12 +240,21 @@ export const Presentation = () => {
     showNavigationWithTimeout();
   }, [currentSlide, showNavigationWithTimeout]);
 
+  // Update timer when duration changes
+  useEffect(() => {
+    if (!isTimerRunning) {
+      setTimeRemaining(SLIDE_DURATION);
+    }
+  }, [SLIDE_DURATION, isTimerRunning]);
+
   const CurrentSlideComponent = slides[currentSlide];
 
   return (
     <div className="min-h-screen flex flex-col">
       {/* Timer Button */}
-      <div className="fixed top-4 sm:top-6 left-4 sm:left-6 z-50">
+      <div className={`fixed top-4 sm:top-6 left-4 sm:left-6 z-50 transition-all duration-300 ${
+        showNavigation ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 md:translate-y-0 md:opacity-100'
+      }`}>
         <Button
           variant="outline"
           size="sm"
@@ -211,11 +265,39 @@ export const Presentation = () => {
         </Button>
         
         {showTimer && (
-          <div className="mt-2 bg-black/20 backdrop-blur-sm rounded-lg p-2 sm:p-3 text-white/90 min-w-[120px]">
+          <div className="mt-2 bg-black/20 backdrop-blur-sm rounded-lg p-2 sm:p-3 text-white/90 min-w-[140px]">
             <div className="text-center text-sm sm:text-base font-mono mb-2">
               {formatTime(timeRemaining)}
             </div>
-            <Progress value={getProgressPercentage()} className="h-1 sm:h-2 mb-2" />
+            
+            {/* Duration Input */}
+            <div className="mb-2 text-center">
+              {isEditingDuration ? (
+                <Input
+                  type="number"
+                  min="1"
+                  max="60"
+                  value={slideDurationMinutes}
+                  onChange={(e) => handleDurationChange(parseInt(e.target.value) || 1)}
+                  onBlur={() => setIsEditingDuration(false)}
+                  onKeyDown={(e) => e.key === 'Enter' && setIsEditingDuration(false)}
+                  className="w-16 h-6 text-xs text-center bg-white/20 border-white/30 text-white"
+                  autoFocus
+                />
+              ) : (
+                <button
+                  onClick={() => setIsEditingDuration(true)}
+                  className="text-xs text-white/80 hover:text-white"
+                >
+                  {slideDurationMinutes} min
+                </button>
+              )}
+            </div>
+            
+            <Progress 
+              value={getProgressPercentage()} 
+              className={`h-1 sm:h-2 mb-2 ${timeRemaining <= 30 ? 'animate-pulse' : ''}`}
+            />
             <div className="flex gap-1 justify-center">
               <Button
                 variant="ghost"
