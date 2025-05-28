@@ -1,73 +1,62 @@
-# Welcome to your Lovable project
 
-## Project info
+# Presentación de Ciberseguridad en Dispositivos Personales
 
-**URL**: https://lovable.dev/projects/5dab358f-b880-4ae3-8b28-8a40c591535c
+Una presentación interactiva desarrollada completamente con Lovable, cubriendo aspectos esenciales de ciberseguridad para dispositivos personales.
 
-## How can I edit this code?
+## 🚀 Acceso Directo
 
-There are several ways of editing your application.
+**Ver la presentación**: [https://security-talk-primer.lovable.app/](https://security-talk-primer.lovable.app/)
 
-**Use Lovable**
+## ✨ Características Principales
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/5dab358f-b880-4ae3-8b28-8a40c591535c) and start prompting.
+- **Navegación avanzada**: Teclado, gestos táctiles y controles visuales
+- **Temporizador inteligente**: Configurable con alertas visuales y sonoras
+- **Diseño responsivo**: Optimizado para todos los dispositivos
+- **12 diapositivas completas**: Desde conceptos básicos hasta temas avanzados
 
-Changes made via Lovable will be committed automatically to this repo.
+## 📚 Documentación Completa
 
-**Use your preferred IDE**
+Para información detallada sobre el proyecto, consulta la [documentación completa](./docs/README.md):
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- [Características y Funcionalidades](./docs/FEATURES.md)
+- [¿Por qué Lovable?](./docs/WHY_LOVABLE.md)
+- [Proceso de Desarrollo](./docs/DEVELOPMENT_PROCESS.md)
+- [Arquitectura Técnica](./docs/TECHNICAL_ARCHITECTURE.md)
+- [Guía de Usuario](./docs/USER_GUIDE.md)
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🛠️ Desarrollo Local
 
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
+```bash
+# Clonar el repositorio
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
+# Instalar dependencias
 cd <YOUR_PROJECT_NAME>
+npm install
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Iniciar servidor de desarrollo
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## 🌟 Tecnologías
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- **React** + TypeScript
+- **Tailwind CSS**
+- **Shadcn/UI**
+- **Vite**
+- **Lovable AI Editor**
 
-**Use GitHub Codespaces**
+## 👨‍💻 Autor
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+**Jesus Rodolfo Gil Farias**  
+[Perfil Gravatar](https://gravatar.com/jesusrgil)
 
-## What technologies are used for this project?
+## 📖 Sobre Lovable
 
-This project is built with:
+Este proyecto demuestra las capacidades de [Lovable](https://lovable.dev), un editor de IA para aplicaciones web que permite crear aplicaciones React completas a través de conversación natural.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+**URL del Proyecto en Lovable**: https://lovable.dev/projects/5dab358f-b880-4ae3-8b28-8a40c591535c
 
-## How can I deploy this project?
+---
 
-Simply open [Lovable](https://lovable.dev/projects/5dab358f-b880-4ae3-8b28-8a40c591535c) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+*Desarrollado completamente usando Lovable - Un ejemplo práctico de desarrollo asistido por IA*
