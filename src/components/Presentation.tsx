@@ -1,4 +1,3 @@
-
 import { useState, useRef, useCallback, useEffect } from "react";
 import { ChevronLeft, ChevronRight, Timer } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -92,8 +91,8 @@ export const Presentation = () => {
           return 0;
         }
         
-        // Play beep sound in the last 30 seconds
-        if (prev <= 30 && !beepPlayed) {
+        // Play beep sound in the last 15 seconds
+        if (prev <= 15 && !beepPlayed) {
           createBeepSound();
           setBeepPlayed(true);
         }
@@ -296,7 +295,7 @@ export const Presentation = () => {
             
             <Progress 
               value={getProgressPercentage()} 
-              className={`h-1 sm:h-2 mb-2 ${timeRemaining <= 30 ? 'animate-pulse' : ''}`}
+              className={`h-1 sm:h-2 mb-2 ${timeRemaining <= 15 ? 'animate-pulse' : ''}`}
             />
             <div className="flex gap-1 justify-center">
               <Button
