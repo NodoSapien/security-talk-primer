@@ -68,14 +68,6 @@ export const PhishingSlide = () => {
           </ul>
         </div>
 
-        <div className="p-4 sm:p-6 bg-green-500/20 backdrop-blur-sm rounded-xl border border-green-300/20">
-          <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-green-300 flex items-center gap-2">
-            <Eye className="w-5 h-5 sm:w-6 sm:h-6" />
-            Consejo:
-          </h3>
-          <p className="text-base sm:text-lg">Nunca hacer clic sin verificar el remitente</p>
-        </div>
-
         <div className="grid lg:grid-cols-2 gap-4 sm:gap-6">
           <div className="p-4 sm:p-6 bg-blue-500/20 backdrop-blur-sm rounded-xl border border-blue-300/20">
             <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-blue-300 flex items-center gap-2">
